@@ -5,10 +5,14 @@ import java.awt.Color;
 public class AStar 
 {
 	private static Node grid[][] = new Node[10][19];
+	private static NodeButton nb = new NodeButton();
 	public static void main(String[] args) 
 	{
 		setupButtonsAndArray();
-		grid[0][0].getNodeButton().setBackGroundColor(Color.red);
+		grid[7][15].getNodeButton().setBackGroundColor(Color.red);
+		grid[9][0].setFValue(100);
+		grid[0][0].setGValue(25);
+		grid[0][0].setHValue(300);
 	}
 	
 	public static void setupButtonsAndArray()

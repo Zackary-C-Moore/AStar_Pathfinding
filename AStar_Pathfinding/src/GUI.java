@@ -48,8 +48,6 @@ public class GUI
 		//Get the button from NodeButton and place it on my panel
 		buttonPanel.add(nodeBtn.getButton());
 		
-		//nodeBtn.setButtonDisplay("10", "10", "10");
-		
 		xPos += nodeBtn.getButtonSize().width;
 		
 		colCount++;

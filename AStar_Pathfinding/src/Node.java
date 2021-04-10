@@ -37,14 +37,20 @@ public class Node
 	public void setHValue(int h)
 	{
 		this.h = h;
+		//Handle the display for button
+		btn.setHDisplay(String.valueOf(h));
 	}
 	public void setGValue(int g)
 	{
 		this.g = g;
+		//Handle the display for button
+		btn.setGDisplay(String.valueOf(g));
 	}
 	public void setFValue(int f)
 	{
 		this.f = f;
+		//handle display for button
+		btn.setFDisplay(String.valueOf(f));
 	}
 	public void setNodeButton(NodeButton btn)
 	{

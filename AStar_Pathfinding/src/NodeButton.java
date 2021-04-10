@@ -19,16 +19,12 @@ public class NodeButton extends JButton
 		g = new JLabel();
 		h = new JLabel();
 		
-		f.setText("82");
-		f.setBorder(null);
+		f.setText("");
 		
-		g.setText("58");
-		f.setBorder(null);
+		g.setText("");
 		
-		h.setText("24");
-		f.setBorder(null);
+		h.setText("");
 		
-		setButtonDisplay(f.getText(), g.getText(), h.getText());
 		//no border around selected button
 		button.setFocusPainted(false);
 		
@@ -44,15 +40,33 @@ public class NodeButton extends JButton
 	{
 		return buttonSize;
 	}
-	public void setButtonDisplay(String f, String g, String h)
+
+	public void setButtonDisplay()
 	{
-		this.f.setText(f);
-		this.g.setText(g);
-		this.h.setText(h);
+		String f = this.f.getText();
+		String g = this.g.getText();
+		String h = this.h.getText();
+		
 		String htmlForButton = "<html><table border = 0 style = 'font-size: 8px; horizontal-align:left'><tr><td>" + f + "</td><td></td><td>" + g +"</tr>"+
                 "<tr><td></td><td>" + h + "</td><td></td></tr></table></html>";
 
 		button.setText(htmlForButton);
+	}
+	
+	public void setFDisplay(String f)
+	{
+		this.f.setText(f);
+		setButtonDisplay();
+	}
+	public void setGDisplay(String g)
+	{
+		this.g.setText(g);
+		setButtonDisplay();
+	}
+	public void setHDisplay(String h)
+	{
+		this.h.setText(h);
+		setButtonDisplay();
 	}
 	public void setBackGroundColor(Color c)
 	{
