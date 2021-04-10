@@ -28,7 +28,7 @@ public class NodeButton extends JButton
 		h.setText("24");
 		f.setBorder(null);
 		
-		setButtonDisplay(button, f.getText(), g.getText(), h.getText());
+		setButtonDisplay(f.getText(), g.getText(), h.getText());
 		//no border around selected button
 		button.setFocusPainted(false);
 		
@@ -44,11 +44,18 @@ public class NodeButton extends JButton
 	{
 		return buttonSize;
 	}
-	public void setButtonDisplay(JButton button, String f, String g, String h)
+	public void setButtonDisplay(String f, String g, String h)
 	{
+		this.f.setText(f);
+		this.g.setText(g);
+		this.h.setText(h);
 		String htmlForButton = "<html><table border = 0 style = 'font-size: 8px; horizontal-align:left'><tr><td>" + f + "</td><td></td><td>" + g +"</tr>"+
                 "<tr><td></td><td>" + h + "</td><td></td></tr></table></html>";
 
 		button.setText(htmlForButton);
+	}
+	public void setBackGroundColor(Color c)
+	{
+		button.setBackground(c);
 	}
 }
