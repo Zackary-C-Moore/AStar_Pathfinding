@@ -33,28 +33,31 @@ public class GUI
 	
 	public NodeButton addButtons()
 	{
+		//Create a new button
 		NodeButton nodeBtn = new NodeButton();
 		
+		//If the colCount == cols then I need to make a new row.
 		if(colCount == cols)
 		{
 			colCount = 0;
 			xPos = 0;
+			//add to yPos the height of the button so they are evenly spaced.
 			yPos += nodeBtn.getButtonSize().height;
 		}
 		
 		
-		
+		//Set the position of the button
 		nodeBtn.getButton().setBounds(xPos,yPos,nodeBtn.getButtonSize().width, nodeBtn.getButtonSize().height);
 		//Get the button from NodeButton and place it on my panel
 		buttonPanel.add(nodeBtn.getButton());
 		
+		//add to xPos the width of the button so they are evenly spaced.
 		xPos += nodeBtn.getButtonSize().width;
 		
 		colCount++;
-
 		
+		//Return the button to AStar to add to array.
 		return nodeBtn;
-		
 	}
 	
 	public void showFrame()

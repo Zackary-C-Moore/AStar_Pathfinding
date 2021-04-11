@@ -7,23 +7,17 @@ public class NodeButton extends JButton
 {
 	private Dimension buttonSize = new Dimension(100,100);
 	private JButton button;
-	private JLabel f;
-	private JLabel g;
-	private JLabel h;
+	private JLabel fLabel;
+	private JLabel gLabel;
+	private JLabel hLabel;
 	
 	public NodeButton()
 	{
 		button = new JButton();
 		
-		f = new JLabel();
-		g = new JLabel();
-		h = new JLabel();
-		
-		f.setText("");
-		
-		g.setText("");
-		
-		h.setText("");
+		fLabel = new JLabel();
+		gLabel = new JLabel();
+		hLabel = new JLabel();
 		
 		//no border around selected button
 		button.setFocusPainted(false);
@@ -41,11 +35,12 @@ public class NodeButton extends JButton
 		return buttonSize;
 	}
 
+	//Used to setup the labels to display on the buttons.
 	public void setButtonDisplay()
 	{
-		String f = this.f.getText();
-		String g = this.g.getText();
-		String h = this.h.getText();
+		String f = this.fLabel.getText();
+		String g = this.gLabel.getText();
+		String h = this.hLabel.getText();
 		
 		String htmlForButton = "<html><table border = 0 style = 'font-size: 8px; horizontal-align:left'><tr><td>" + f + "</td><td></td><td>" + g +"</tr>"+
                 "<tr><td></td><td>" + h + "</td><td></td></tr></table></html>";
@@ -53,19 +48,22 @@ public class NodeButton extends JButton
 		button.setText(htmlForButton);
 	}
 	
+	//Called from Node when we edit the f value
 	public void setFDisplay(String f)
 	{
-		this.f.setText(f);
+		this.fLabel.setText(f);
 		setButtonDisplay();
 	}
+	//Called from Node when we edit the g value
 	public void setGDisplay(String g)
 	{
-		this.g.setText(g);
+		this.gLabel.setText(g);
 		setButtonDisplay();
 	}
+	//Called from Node when we edit the h value
 	public void setHDisplay(String h)
 	{
-		this.h.setText(h);
+		this.hLabel.setText(h);
 		setButtonDisplay();
 	}
 	public void setBackGroundColor(Color c)
