@@ -1,5 +1,3 @@
-import java.awt.Color;
-
 import javax.swing.*;
 
 public class GUI 
@@ -20,6 +18,7 @@ public class GUI
 	GUI()
 	{
 		setupFrame();
+		setupRadioButtons();
 	}
 	public void setupFrame()
 	{
@@ -27,14 +26,50 @@ public class GUI
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(xFrameSize,yFrameSize);
 		
-
-		
 		//Create a new panel to be placed on the frame
 		buttonPanel = new JPanel();
 		//needed so I can place the buttons where I want.
 		buttonPanel.setLayout(null);
 	}
 	
+	public void setupRadioButtons()
+	{
+		//create radio buttons
+		wallRadioButton = new JRadioButton();
+		endRadioButton = new JRadioButton();
+		startRadioButton = new JRadioButton();
+		
+		//create the group for my radio buttons
+		radioButtonGroup = new ButtonGroup();
+		
+		//set position and size of radio buttons
+		wallRadioButton.setBounds(10,1000,120,50);
+		endRadioButton.setBounds(130,1000,120,50);
+		startRadioButton.setBounds(250,1000,120,50);
+		
+		//set the text for my radio buttons
+		wallRadioButton.setText("Wall");
+		endRadioButton.setText("End");
+		startRadioButton.setText("Start");
+		
+		//add action listener to my radio buttons
+		wallRadioButton.addActionListener(new RadioButtonActionListener());
+		endRadioButton.addActionListener(new RadioButtonActionListener());
+		startRadioButton.addActionListener(new RadioButtonActionListener());
+		
+		//add radio buttons to the frame
+		frame.add(wallRadioButton);
+		frame.add(endRadioButton);
+		frame.add(startRadioButton);
+		
+		//Put all my radio buttons in a group so only one can be selected at a time.
+		radioButtonGroup.add(wallRadioButton);
+		radioButtonGroup.add(endRadioButton);
+		radioButtonGroup.add(startRadioButton);
+	}
+	//function called by AStar to create new NodeButtons and
+	//1. add them to my form - done below
+	//2. add them to my 2d array - done in AStar
 	public NodeButton addButtons()
 	{
 		//Create a new button
@@ -50,10 +85,10 @@ public class GUI
 		}
 		
 		
-		//Set the position of the button
+		//Set the position and size of the button
 		nodeBtn.getButton().setBounds(xPos,yPos,nodeBtn.getButtonSize().width, nodeBtn.getButtonSize().height);
 		//Get the button from NodeButton and place it on my panel
-		buttonPanel.add(nodeBtn.getButton());
+		buttonPanel.add(nodeBtn);
 		//add to xPos the width of the button so they are evenly spaced.
 		xPos += nodeBtn.getButtonSize().width;
 		

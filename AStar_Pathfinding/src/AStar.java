@@ -4,7 +4,13 @@ import java.awt.Color;
 
 public class AStar
 {
-	private static Node grid[][] = new Node[10][19];
+	private static final int rows = 10;
+	private static final int cols = 19;
+	public static final char wallCharacter = 'W';
+	public static final char openCharacter = '-';
+	public static final char startCharacter = 'S';
+	public static final char endCharacter = 'E';
+	private static final Node grid[][] = new Node[rows][cols];
 	public static void main(String[] args) 
 	{
 		setupButtonsAndArray();
@@ -17,22 +23,23 @@ public class AStar
 		//This could also work to get the button to display the correct h value
 		//But I think it is easier to have .setHValue() in the Node class call
 		//setHDisplay in the NodeButton class.  The logic is, every time I wan to 
-		//change a nodes value the display should be changed as well.
+		//change a nodes value then display should be changed as well.
 		//grid[0][0].getNodeButton().setHDisplay(String.valueOf(grid[0][0].getHValue()));
 	}
 	
 	public static void setupButtonsAndArray()
 	{
 		GUI gui = new GUI();
-		for(int r = 0; r < 10; r++)
+		for(int r = 0; r < rows; r++)
 		{
-			for(int c = 0; c < 19; c++)
+			for(int c = 0; c < cols; c++)
 			{
 				grid[r][c] = new Node();
 				grid[r][c].setNodeButton(gui.addButtons());
 				//You can do either way but the first way requires that I create a setName() function in NodeButton
 				grid[r][c].getNodeButton().setName(r,c);
 				//grid[r][c].getNodeButton().getButton().setName(r + "," + c);
+				//Add action listener to all of my buttons.
 				grid[r][c].getNodeButton().getButton().addActionListener(new NodeButtonActionListener());
 			}
 		}
@@ -42,15 +49,15 @@ public class AStar
 	public static void updateBoardAfterClickEvent(int r, int c)
 	{
 		grid[r][c].setFValue(999);
-		grid[r][c].setValue('W');
+		grid[r][c].setValue(wallCharacter);
 		displayBoard();
 	}
-	//Debugging purposes so I can make sure the GUI and the backend are identical.
+	//Debugging purposes so I can make sure the GUI and the 2d array are identical.
 	public static void displayBoard()
 	{
-		for(int r = 0; r < 10; r++)
+		for(int r = 0; r < rows; r++)
 		{
-			for(int c = 0; c < 19; c++)
+			for(int c = 0; c < cols; c++)
 			{
 				System.out.print(grid[r][c].getValue());
 			}

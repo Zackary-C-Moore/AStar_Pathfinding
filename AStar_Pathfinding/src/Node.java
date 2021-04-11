@@ -6,7 +6,7 @@ public class Node
 	private int f;
 	private NodeButton btn;
 	private boolean openSpot = true;
-	private char value = '-';
+	private char value = AStar.openCharacter;
 	
 	//getters
 	public int getHValue()
