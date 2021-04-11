@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 public class NodeButton extends JButton
@@ -14,6 +16,7 @@ public class NodeButton extends JButton
 	public NodeButton()
 	{
 		button = new JButton();
+		
 		
 		fLabel = new JLabel();
 		gLabel = new JLabel();

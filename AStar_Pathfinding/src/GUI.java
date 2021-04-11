@@ -50,7 +50,6 @@ public class GUI
 		nodeBtn.getButton().setBounds(xPos,yPos,nodeBtn.getButtonSize().width, nodeBtn.getButtonSize().height);
 		//Get the button from NodeButton and place it on my panel
 		buttonPanel.add(nodeBtn.getButton());
-		
 		//add to xPos the width of the button so they are evenly spaced.
 		xPos += nodeBtn.getButtonSize().width;
 		

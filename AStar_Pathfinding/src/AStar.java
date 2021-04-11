@@ -2,7 +2,7 @@ import java.awt.Color;
 
 //Zackary Moore
 
-public class AStar 
+public class AStar
 {
 	private static Node grid[][] = new Node[10][19];
 	public static void main(String[] args) 
@@ -28,6 +28,7 @@ public class AStar
 			{
 				grid[r][c] = new Node();
 				grid[r][c].setNodeButton(gui.addButtons());
+				grid[r][c].getNodeButton().getButton().addActionListener(new NodeButtonActionListener());
 			}
 		}
 		gui.showFrame();
