@@ -73,4 +73,8 @@ public class NodeButton extends JButton
 	{
 		button.setBackground(c);
 	}
+	public void setName(int r, int c)
+	{
+		button.setName(r + "," + c);
+	}
 }

@@ -13,6 +13,10 @@ public class GUI
 	private int xPos = 0;
 	private int yPos = 0;
 	private int colCount = 0;
+	private ButtonGroup radioButtonGroup;
+	private JRadioButton wallRadioButton;
+	private JRadioButton endRadioButton;
+	private JRadioButton startRadioButton;
 	GUI()
 	{
 		setupFrame();
