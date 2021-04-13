@@ -2,10 +2,10 @@ import javax.swing.*;
 
 public class GUI 
 {
-	private int rows = 10;
-	private int cols = 19;
-	private int xFrameSize = 1910;
-	private int yFrameSize = 1080;
+	private int rows = AStar.rows;
+	private int cols = AStar.cols;
+	private int xFrameSize = 1890;
+	private int yFrameSize = 1035;
 	private JFrame frame;
 	private JPanel buttonPanel;
 	private int xPos = 0;
@@ -43,9 +43,9 @@ public class GUI
 		radioButtonGroup = new ButtonGroup();
 		
 		//set position and size of radio buttons
-		wallRadioButton.setBounds(10,1000,120,50);
-		endRadioButton.setBounds(130,1000,120,50);
-		startRadioButton.setBounds(250,1000,120,50);
+		wallRadioButton.setBounds(10,960,120,30);
+		endRadioButton.setBounds(130,960,120,30);
+		startRadioButton.setBounds(250,960,120,30);
 		
 		//set the text for my radio buttons
 		wallRadioButton.setText("Wall");
@@ -105,7 +105,7 @@ public class GUI
 	{
 		//Place the panel on the frame.
 		frame.add(buttonPanel);
-		//frame.setResizable(false); 
+		frame.setResizable(false); 
 		frame.setVisible(true);
 	}
 }

@@ -4,8 +4,8 @@ import java.awt.Color;
 
 public class AStar
 {
-	private static final int rows = 10;
-	private static final int cols = 19;
+	public static final int rows = 12;
+	public static final int cols = 23;
 	public static final char openCharacter = '-';
 	public static final Color openColor = Color.gray;
 	private static final Node grid[][] = new Node[rows][cols];
@@ -17,15 +17,16 @@ public class AStar
 	private static final char[] possibleCharacters = {'W','S','E'};
 	private static char characterToPlace = possibleCharacters[0];
 	private static Color colorToPlace = possibleColors[0];
+	private static final Node blankNode = new Node();
 	public static void main(String[] args) 
 	{
 		setupButtonsAndArray();
 		//You can do either way but the first way requires that I create a setBackGroundColor() function in NodeButton
 		//grid[7][15].getNodeButton().setBackGroundColor(Color.red);
 		//grid[7][15].getNodeButton().getButton().setBackground(Color.red);
-		//grid[9][0].setFValue(100);
-		//grid[0][0].setGValue(25);
-		//grid[0][0].setHValue(300);
+		grid[0][0].setFValue(100);
+		grid[0][0].setGValue(25);
+		grid[0][0].setHValue(300);
 		//This could also work to get the button to display the correct h value
 		//But I think it is easier to have .setHValue() in the Node class call
 		//setHDisplay in the NodeButton class.  The logic is, every time I wan to 
@@ -56,45 +57,11 @@ public class AStar
 		gui.showFrame();
 	}
 	
-	public static void updateBoardAfterClickEvent(int r, int c)
-	{
-		//If I am placing something over the start (changing it from start to a wall)
-		//Make sure to set start to null so the simulation cannot take place until there is a start
-		if(startLocation == grid[r][c])
-		{
-			startLocation = null;
-		}
-		//If I am placing something over the end (changing it from end to a wall)
-		//make sure to set end to null so the simulation cannot take place until there is an end.
-		else if(endLocation == grid[r][c])
-		{
-			endLocation = null;
-		}
-		
-		//If I am placing the start location
-		//check to make sure there is not already a start defined.
-		if(characterToPlace == possibleCharacters[1])
-		{
-			eraseStart();
-			startLocation = grid[r][c];
-		}
-		//If I am place the end location
-		//check to make sure there is not already an end defined.
-		else if(characterToPlace == possibleCharacters[2])
-		{
-			eraseEnd();
-			endLocation = grid[r][c];
-		}
-
-		grid[r][c].setValue(characterToPlace);
-		grid[r][c].getNodeButton().setBackGroundColor(colorToPlace);
-		displayBoard();
-	}
 	//Debugging purposes so I can make sure the GUI and the 2d array are identical.
 	public static void displayBoard()
 	{
 		for(int r = 0; r < rows; r++)
-		{
+		{ 
 			for(int c = 0; c < cols; c++)
 			{
 				System.out.print(grid[r][c].getValue());
@@ -112,6 +79,43 @@ public class AStar
 			System.out.println("NOTHING");
 	}
 	
+	public static void updateBoardAfterClickEvent(int r, int c)
+	{
+		//If I am placing something over the start (changing it from start to a wall or start to end)
+		//Make sure to set start to null so the simulation cannot take place until there is a start
+		if(startLocation == grid[r][c])
+		{
+			startLocation = null;
+		}
+		//If I am placing something over the end (changing it from end to a wall or end to start)
+		//make sure to set end to null so the simulation cannot take place until there is an end.
+		else if(endLocation == grid[r][c])
+		{
+			endLocation = null;
+		}
+		
+		//If I am placing the start location
+		//check to make sure there is not already a start defined.
+		if(characterToPlace == possibleCharacters[1])
+		{
+			eraseStart();
+			startLocation = grid[r][c];
+			grid[r][c].setHValue(characterToPlace);
+		}
+		//If I am place the end location
+		//check to make sure there is not already an end defined.
+		else if(characterToPlace == possibleCharacters[2])
+		{
+			eraseEnd();
+			endLocation = grid[r][c];
+			grid[r][c].setHValue(characterToPlace);
+		}
+
+		grid[r][c].setValue(characterToPlace);
+		grid[r][c].getNodeButton().setBackGroundColor(colorToPlace);
+		displayBoard();
+	}
+	
 	public static void setCharacterColorToPlace(int x)
 	{
 		//0 = wall 1 = start 2 = end
@@ -122,8 +126,10 @@ public class AStar
 
 	public static void eraseStart()
 	{
+		//if there was already a start location clear the old one
 		if(startLocation != null)
 		{
+			//change the old start location to nothing.
 			startLocation.setValue(openCharacter);
 			startLocation.getNodeButton().setBackGroundColor(openColor);
 		}
@@ -132,8 +138,10 @@ public class AStar
 	
 	public static void eraseEnd()
 	{
+		//if there was already an end location clear the old one.
 		if(endLocation != null)
 		{
+			//change the old end location to nothing
 			endLocation.setValue(openCharacter);
 			endLocation.getNodeButton().setBackGroundColor(openColor);
 		}

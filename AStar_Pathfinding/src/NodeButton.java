@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 public class NodeButton extends JButton
 {
-	private Dimension buttonSize = new Dimension(100,100);
+	private Dimension buttonSize = new Dimension(80,80);
 	private JButton button;
 	private JLabel fLabel;
 	private JLabel gLabel;
@@ -41,14 +41,20 @@ public class NodeButton extends JButton
 	//Used to setup the labels to display on the buttons.
 	public void setButtonDisplay()
 	{
-		String f = this.fLabel.getText();
-		String g = this.gLabel.getText();
-		String h = this.hLabel.getText();
+		String f = "F: " + this.fLabel.getText();
+		String g = "G: " + this.gLabel.getText();
+		String h = "H: " + this.hLabel.getText();
+
 		
 		String htmlForButton = "<html><table border = 0 style = 'font-size: 8px; horizontal-align:left'><tr><td>" + f + "</td><td></td><td>" + g +"</tr>"+
                 "<tr><td></td><td>" + h + "</td><td></td></tr></table></html>";
+		
+		htmlForButton = "<html><table border = 0 style = 'font-size: 8px; horizontal-align:left'><tr><td>" + f + "</td></tr><tr><td>" + g +"</td></tr><tr><td>"+
+                 h + "</td></tr></table></html>";
 
 		button.setText(htmlForButton);
+		button.setHorizontalTextPosition(SwingConstants.LEFT);
+		button.setVerticalTextPosition(SwingConstants.TOP);
 	}
 	
 	//Called from Node when we edit the f value
