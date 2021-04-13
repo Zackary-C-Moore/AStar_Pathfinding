@@ -57,6 +57,9 @@ public class GUI
 		endRadioButton.addActionListener(new RadioButtonActionListener());
 		startRadioButton.addActionListener(new RadioButtonActionListener());
 		
+		//select wall radio button by default
+		wallRadioButton.setSelected(true);
+		
 		//add radio buttons to the frame
 		frame.add(wallRadioButton);
 		frame.add(endRadioButton);
@@ -88,7 +91,7 @@ public class GUI
 		//Set the position and size of the button
 		nodeBtn.getButton().setBounds(xPos,yPos,nodeBtn.getButtonSize().width, nodeBtn.getButtonSize().height);
 		//Get the button from NodeButton and place it on my panel
-		buttonPanel.add(nodeBtn);
+		buttonPanel.add(nodeBtn.getButton());
 		//add to xPos the width of the button so they are evenly spaced.
 		xPos += nodeBtn.getButtonSize().width;
 		

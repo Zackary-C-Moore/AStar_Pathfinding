@@ -11,7 +11,18 @@ public class RadioButtonActionListener implements ActionListener
 	{
 		JRadioButton radioButtonSelected = (JRadioButton)e.getSource();
 		
-		System.out.println(radioButtonSelected.getText());
+		if(radioButtonSelected.getText().equals("Wall"))
+		{
+			AStar.setCharacterColorToPlace(0);
+		}
+		else if(radioButtonSelected.getText().equals("Start"))
+		{
+			AStar.setCharacterColorToPlace(1);
+		}
+		else
+		{
+			AStar.setCharacterColorToPlace(2);
+		}
 		
 	}
 

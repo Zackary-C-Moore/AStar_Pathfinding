@@ -7,6 +7,8 @@ public class Node
 	private NodeButton btn;
 	private boolean openSpot = true;
 	private char value = AStar.openCharacter;
+	private int row;
+	private int col;
 	
 	//getters
 	public int getHValue()
@@ -32,6 +34,14 @@ public class Node
 	public char getValue()
 	{
 		return value;
+	}
+	public int getRow()
+	{
+		return row;
+	}
+	public int getCol()
+	{
+		return col;
 	}
 	//setters
 	public void setHValue(int h)
@@ -63,5 +73,13 @@ public class Node
 	public void setValue(char v)
 	{
 		value = v;
+	}
+	public void setRow(int r)
+	{
+		row = r;
+	}
+	public void setCol(int c)
+	{
+		col = c;
 	}
 }
