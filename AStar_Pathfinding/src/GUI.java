@@ -2,8 +2,8 @@ import javax.swing.*;
 
 public class GUI 
 {
-	private int rows = AStar.rows;
-	private int cols = AStar.cols;
+	private int rows = AStar.getRows();
+	private int cols = AStar.getCols();
 	private int xFrameSize = 1890;
 	private int yFrameSize = 1035;
 	private JFrame frame;
@@ -12,13 +12,51 @@ public class GUI
 	private int yPos = 0;
 	private int colCount = 0;
 	private ButtonGroup radioButtonGroup;
-	private JRadioButton wallRadioButton;
-	private JRadioButton endRadioButton;
-	private JRadioButton startRadioButton;
+	
+	private String radioButtonNameWall = "radioButtonWall";
+	private String radioButtonNameEnd = "radioButtonEnd";
+	private String radioButtonNameStart = "radioButtonStart";
+	
+	private String jbuttonNameFindPath = "findPathBtn";
+	private String jbuttonNameNextStep = "nextStepBtn";
+	private String jbuttonNameRandomMaze = "randomMazeBtn";
+	private String jbuttonNameClear = "clearBtn";
+	
+	
+	public String getRadioButtonNameWall()
+	{
+		return radioButtonNameWall;
+	}
+	public String getRadioButtonNameEnd()
+	{
+		return radioButtonNameEnd;
+	}
+	public String getRadioButtonNameStart()
+	{
+		return radioButtonNameStart;
+	}
+	
+	public String getJButtonNameFindPath()
+	{
+		return jbuttonNameFindPath;
+	}
+	public String getJButtonNameNextStep()
+	{
+		return jbuttonNameNextStep;
+	}
+	public String getJButtonNameRandomMaze()
+	{
+		return jbuttonNameRandomMaze;
+	}
+	public String getJButtonNameClear()
+	{
+		return jbuttonNameClear;
+	}
+	
+	
 	GUI()
 	{
-		setupFrame();
-		setupRadioButtons();
+		
 	}
 	public void setupFrame()
 	{
@@ -30,27 +68,35 @@ public class GUI
 		buttonPanel = new JPanel();
 		//needed so I can place the buttons where I want.
 		buttonPanel.setLayout(null);
+		
+		setupRadioButtons();
+		setupRunButtons();
 	}
 	
 	public void setupRadioButtons()
 	{
 		//create radio buttons
-		wallRadioButton = new JRadioButton();
-		endRadioButton = new JRadioButton();
-		startRadioButton = new JRadioButton();
+		JRadioButton wallRadioButton = new JRadioButton();
+		JRadioButton endRadioButton = new JRadioButton();
+		JRadioButton startRadioButton = new JRadioButton();
 		
 		//create the group for my radio buttons
 		radioButtonGroup = new ButtonGroup();
 		
 		//set position and size of radio buttons
-		wallRadioButton.setBounds(10,960,120,30);
-		endRadioButton.setBounds(130,960,120,30);
-		startRadioButton.setBounds(250,960,120,30);
+		wallRadioButton.setBounds(10,960,80,30);
+		endRadioButton.setBounds(90,960,80,30);
+		startRadioButton.setBounds(170,960,80,30);
 		
 		//set the text for my radio buttons
 		wallRadioButton.setText("Wall");
 		endRadioButton.setText("End");
 		startRadioButton.setText("Start");
+		
+		//set the name for my radio buttons
+		wallRadioButton.setName(radioButtonNameWall);
+		endRadioButton.setName(radioButtonNameEnd);
+		startRadioButton.setName(radioButtonNameStart);
 		
 		//add action listener to my radio buttons
 		wallRadioButton.addActionListener(new RadioButtonActionListener());
@@ -70,6 +116,39 @@ public class GUI
 		radioButtonGroup.add(endRadioButton);
 		radioButtonGroup.add(startRadioButton);
 	}
+	
+	public void setupRunButtons()
+	{
+		JButton findPathBtn = new JButton("Find Path");
+		JButton stepBtn = new JButton("Next Step");
+		JButton clearBtn = new JButton("Clear");
+		JButton randomMaze = new JButton("Random");
+		
+		findPathBtn.setName(jbuttonNameFindPath);
+		stepBtn.setName(jbuttonNameNextStep);
+		randomMaze.setName(jbuttonNameRandomMaze);
+		clearBtn.setName(jbuttonNameClear);
+		
+		
+		findPathBtn.setBounds(300,965,100,30);
+		stepBtn.setBounds(405,965,100,30);
+		randomMaze.setBounds(510,965,100,30);
+		clearBtn.setBounds(620,965,100,30);
+		
+		findPathBtn.addActionListener(new JButtonActionListener());
+		stepBtn.addActionListener(new JButtonActionListener());
+		randomMaze.addActionListener(new JButtonActionListener());
+		clearBtn.addActionListener(new JButtonActionListener());
+		
+		
+		frame.add(findPathBtn);
+		frame.add(stepBtn);
+		frame.add(clearBtn);
+		frame.add(randomMaze);
+		
+		
+	}
+	
 	//function called by AStar to create new NodeButtons and
 	//1. add them to my form - done below
 	//2. add them to my 2d array - done in AStar
@@ -107,5 +186,10 @@ public class GUI
 		frame.add(buttonPanel);
 		frame.setResizable(false); 
 		frame.setVisible(true);
+	}
+	
+	public void deleteFrame()
+	{
+		frame.dispose();
 	}
 }

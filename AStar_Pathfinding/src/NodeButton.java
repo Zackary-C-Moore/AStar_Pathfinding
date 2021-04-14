@@ -83,4 +83,8 @@ public class NodeButton extends JButton
 	{
 		button.setName(r + "," + c);
 	}
+	public void clearButtonText()
+	{
+		button.setText(null);
+	}
 }

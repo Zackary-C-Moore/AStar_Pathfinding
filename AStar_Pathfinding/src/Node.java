@@ -1,12 +1,12 @@
 
 public class Node 
 {
-	private int h;
-	private int g;
-	private int f;
+	private int h = 0;
+	private int g = 0;
+	private int f = 0;
 	private NodeButton btn;
 	private boolean openSpot = true;
-	private char value = AStar.openCharacter;
+	private char value = AStar.getOpenCharacter();
 	private int row;
 	private int col;
 	

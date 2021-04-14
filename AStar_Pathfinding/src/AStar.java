@@ -17,16 +17,29 @@ public class AStar
 	private static final char[] possibleCharacters = {'W','S','E'};
 	private static char characterToPlace = possibleCharacters[0];
 	private static Color colorToPlace = possibleColors[0];
-	private static final Node blankNode = new Node();
+	
+	
+	public static int getRows()
+	{
+		return rows;
+	}
+	public static int getCols()
+	{
+		return cols;
+	}
+	public static char getOpenCharacter()
+	{
+		return openCharacter;
+	}
 	public static void main(String[] args) 
 	{
 		setupButtonsAndArray();
 		//You can do either way but the first way requires that I create a setBackGroundColor() function in NodeButton
 		//grid[7][15].getNodeButton().setBackGroundColor(Color.red);
 		//grid[7][15].getNodeButton().getButton().setBackground(Color.red);
-		grid[0][0].setFValue(100);
-		grid[0][0].setGValue(25);
-		grid[0][0].setHValue(300);
+		//grid[0][0].setFValue(100);
+		//grid[0][0].setGValue(25);
+		//grid[0][0].setHValue(300);
 		//This could also work to get the button to display the correct h value
 		//But I think it is easier to have .setHValue() in the Node class call
 		//setHDisplay in the NodeButton class.  The logic is, every time I wan to 
@@ -38,6 +51,7 @@ public class AStar
 	public static void setupButtonsAndArray()
 	{
 		GUI gui = new GUI();
+		gui.setupFrame();
 		for(int r = 0; r < rows; r++)
 		{
 			for(int c = 0; c < cols; c++)
@@ -130,8 +144,7 @@ public class AStar
 		if(startLocation != null)
 		{
 			//change the old start location to nothing.
-			startLocation.setValue(openCharacter);
-			startLocation.getNodeButton().setBackGroundColor(openColor);
+			clearNode(startLocation);
 		}
 		
 	}
@@ -142,9 +155,30 @@ public class AStar
 		if(endLocation != null)
 		{
 			//change the old end location to nothing
-			endLocation.setValue(openCharacter);
-			endLocation.getNodeButton().setBackGroundColor(openColor);
+			clearNode(endLocation);
 		}
+	}
+	
+	public static void resetBoard()
+	{
+		for(int r = 0; r < rows; r++)
+		{ 
+			for(int c = 0; c < cols; c++)
+			{
+				clearNode(grid[r][c]);
+				startLocation = null;
+				endLocation = null;
+			}
+		}
+		
+		displayBoard();
+	}
+	
+	public static void clearNode(Node node)
+	{
+		node.setValue('-');
+		node.getNodeButton().setBackGroundColor(openColor);
+		node.getNodeButton().clearButtonText();
 	}
 
 }
