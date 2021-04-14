@@ -1,14 +1,20 @@
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
 
 //Zackary Moore
 
 public class AStar
 {
-	public static final int rows = 12;
-	public static final int cols = 23;
+	public static final int numRows = 12;
+	public static final int numCols = 23;
 	public static final char openCharacter = '-';
 	public static final Color openColor = Color.gray;
-	private static final Node grid[][] = new Node[rows][cols];
+	private static final Node grid[][] = new Node[numRows][numCols];
 	private static Node startLocation = null;
 	private static Node endLocation = null;
 	//used as a lookup table
@@ -19,7 +25,7 @@ public class AStar
 	private static Color colorToPlace = possibleColors[0];
 	
 	
-	public static void main(String[] args) 
+	public static void main(String[] args) throws IOException 
 	{
 		setupButtonsAndArray();
 		//You can do either way but the first way requires that I create a setBackGroundColor() function in NodeButton
@@ -40,9 +46,9 @@ public class AStar
 	{
 		GUI gui = new GUI();
 		gui.setupFrame();
-		for(int r = 0; r < rows; r++)
+		for(int r = 0; r < numRows; r++)
 		{
-			for(int c = 0; c < cols; c++)
+			for(int c = 0; c < numCols; c++)
 			{
 				grid[r][c] = new Node();
 				grid[r][c].setCol(c);
@@ -62,9 +68,9 @@ public class AStar
 	//Debugging purposes so I can make sure the GUI and the 2d array are identical.
 	public static void displayBoard()
 	{
-		for(int r = 0; r < rows; r++)
+		for(int r = 0; r < numRows; r++)
 		{ 
-			for(int c = 0; c < cols; c++)
+			for(int c = 0; c < numCols; c++)
 			{
 				System.out.print(grid[r][c].getValue());
 			}
@@ -154,9 +160,9 @@ public class AStar
 	
 	public static void resetBoard()
 	{
-		for(int r = 0; r < rows; r++)
+		for(int r = 0; r < numRows; r++)
 		{ 
-			for(int c = 0; c < cols; c++)
+			for(int c = 0; c < numCols; c++)
 			{
 				clearNode(grid[r][c]);
 				startLocation = null;
@@ -174,14 +180,86 @@ public class AStar
 		node.getNodeButton().clearButtonText();
 	}
 	
+	public static void readRandomMaze() throws IOException
+	{
+		try 
+		{
+			startLocation = null;
+			endLocation = null;
+			FileReader input = new FileReader(new File("maze00.txt"));
+			int text;
+			int r = 0;
+			int c = 0;
+			while((text = input.read()) != -1)
+			{
+				//determine how many columns have been read
+				if(c == numCols)
+				{
+					c = 0;
+					r++;
+				}
+				//ignore the text if it is a new line or carriage return
+				if(text != 10 && text != 13)
+				{
+					//load what we read into the array
+					loadMazeIntoArray(r, c, (char)text);
+					c++;
+				}
+				
+			}
+			displayBoard();
+		} catch (FileNotFoundException e) 
+		{
+			System.out.println("Error: File not found");
+		}
+	}
+	
+	public static void loadMazeIntoArray(int r, int c, char val)
+	{
+		//delete all the information in the node
+		clearNode(grid[r][c]);
+		Color color = null;
+		
+		//figure out what color to set the button
+		if(val == possibleCharacters[0])
+		{
+			color = possibleColors[0];
+		}
+		else if(val == possibleCharacters[1])
+		{
+			color = possibleColors[1];
+			startLocation = grid[r][c];
+		}
+		else if(val == possibleCharacters[2])
+		{
+			color = possibleColors[2];
+			endLocation = grid[r][c];
+		}
+		else if(val == openCharacter)
+		{
+			color = openColor;
+		}
+		else
+		{
+			System.out.println("Error: Reading file");
+		}
+		
+		//set the value to what was read in the text file.
+		grid[r][c].setValue(val);
+		//set the color to the corresponding color with this value
+		grid[r][c].getNodeButton().setBackGroundColor(color);
+		
+		
+	}
+	
 	//GETTERS
 	public static int getRows()
 	{
-		return rows;
+		return numRows;
 	}
 	public static int getCols()
 	{
-		return cols;
+		return numCols;
 	}
 	public static char getOpenCharacter()
 	{

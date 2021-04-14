@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 
@@ -26,7 +27,13 @@ public class JButtonActionListener implements ActionListener
 		}
 		else if(buttonName.equals(gui.getJButtonNameRandomMaze()))
 		{
-			//generate a random maze
+			try 
+			{
+				AStar.readRandomMaze();
+			} catch (IOException e1) 
+			{
+				e1.printStackTrace();
+			}
 		}
 		else
 		{
