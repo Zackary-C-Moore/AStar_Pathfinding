@@ -1,0 +1,12 @@
+WS-----WWWW------------
+W-------WWW------------
+WWW------WW------------
+WWW-------WWW----------
+WWW---------WWWWWWWWWW-
+WWWWWW---WW-------W-WW-
+--WWWW--WWWW------W-WW-
+--WWWW-WWWWWWWWWW-W-WWW
+--WWWW--WWWW-WWWW-W---W
+--WWWW--WWWW--WWWWW-W-W
+---------WW---------WEW
+--------------------WWW

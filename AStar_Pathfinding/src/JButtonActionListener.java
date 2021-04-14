@@ -29,9 +29,24 @@ public class JButtonActionListener implements ActionListener
 		{
 			try 
 			{
-				FileIO.readRandomMaze();
-			} catch (IOException e1) 
+				FileIO.randomMazeSetup();
+			} 
+			catch (IOException e1) 
 			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(buttonName.equals(GUI.getJButtonNameSaveMaze()))
+		{
+			//write the current board state to a file
+			try 
+			{
+				FileIO.saveMazeSetup();
+			} 
+			catch (IOException e1) 
+			{
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

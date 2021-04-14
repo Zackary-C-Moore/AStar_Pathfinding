@@ -23,6 +23,7 @@ public class GUI
 	private static String jbuttonNameNextStep = "nextStepBtn";
 	private static String jbuttonNameRandomMaze = "randomMazeBtn";
 	private static String jbuttonNameClear = "clearBtn";
+	private static String jbuttonNameSaveMaze = "saveMazeBtn";
 	
 	
 
@@ -97,28 +98,33 @@ public class GUI
 		JButton stepBtn = new JButton("Next Step");
 		JButton clearBtn = new JButton("Clear");
 		JButton randomMaze = new JButton("Random");
+		JButton saveMaze = new JButton("Save");
 		
 		findPathBtn.setName(jbuttonNameFindPath);
 		stepBtn.setName(jbuttonNameNextStep);
 		randomMaze.setName(jbuttonNameRandomMaze);
 		clearBtn.setName(jbuttonNameClear);
+		saveMaze.setName(jbuttonNameSaveMaze);
 		
 		
 		findPathBtn.setBounds(300,965,100,30);
 		stepBtn.setBounds(405,965,100,30);
 		randomMaze.setBounds(510,965,100,30);
 		clearBtn.setBounds(620,965,100,30);
+		saveMaze.setBounds(725,965,100,30);
 		
 		findPathBtn.addActionListener(new JButtonActionListener());
 		stepBtn.addActionListener(new JButtonActionListener());
 		randomMaze.addActionListener(new JButtonActionListener());
 		clearBtn.addActionListener(new JButtonActionListener());
+		saveMaze.addActionListener(new JButtonActionListener());
 		
 		
 		frame.add(findPathBtn);
 		frame.add(stepBtn);
 		frame.add(clearBtn);
 		frame.add(randomMaze);
+		frame.add(saveMaze);
 		
 		
 	}
@@ -199,5 +205,9 @@ public class GUI
 	public static String getJButtonNameClear()
 	{
 		return jbuttonNameClear;
+	}
+	public static String getJButtonNameSaveMaze()
+	{
+		return jbuttonNameSaveMaze;
 	}
 }

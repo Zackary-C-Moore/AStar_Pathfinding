@@ -176,13 +176,6 @@ public class AStar
 	
 	public static void loadMazeIntoArray(int r, int c, char val)
 	{
-//		//erase start and finish if this is the first time calling this function
-//		//a reading loop will call this and we need a to set the 
-//		if(r == 0)
-//		{
-//			startLocation = null;
-//			endLocation = null;
-//		}
 		//delete all the information in the node
 		clearNode(grid[r][c]);
 		Color color = null;
@@ -192,15 +185,19 @@ public class AStar
 		{
 			color = possibleColors[0];
 		}
+		//start location
 		else if(val == possibleCharacters[1])
 		{
 			color = possibleColors[1];
 			startLocation = grid[r][c];
+			grid[r][c].getNodeButton().setButtonDisplay("Start");
 		}
+		//end location
 		else if(val == possibleCharacters[2])
 		{
 			color = possibleColors[2];
 			endLocation = grid[r][c];
+			grid[r][c].getNodeButton().setButtonDisplay("End");
 		}
 		else if(val == openCharacter)
 		{
@@ -235,6 +232,10 @@ public class AStar
 	public static Color getOpenColor()
 	{
 		return openColor;
+	}
+	public static Node getNodeFromArray(int r, int c)
+	{
+		return grid[r][c];
 	}
 
 }
