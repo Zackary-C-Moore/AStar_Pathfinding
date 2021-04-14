@@ -23,35 +23,7 @@ public class GUI
 	private String jbuttonNameClear = "clearBtn";
 	
 	
-	public String getRadioButtonNameWall()
-	{
-		return radioButtonNameWall;
-	}
-	public String getRadioButtonNameEnd()
-	{
-		return radioButtonNameEnd;
-	}
-	public String getRadioButtonNameStart()
-	{
-		return radioButtonNameStart;
-	}
-	
-	public String getJButtonNameFindPath()
-	{
-		return jbuttonNameFindPath;
-	}
-	public String getJButtonNameNextStep()
-	{
-		return jbuttonNameNextStep;
-	}
-	public String getJButtonNameRandomMaze()
-	{
-		return jbuttonNameRandomMaze;
-	}
-	public String getJButtonNameClear()
-	{
-		return jbuttonNameClear;
-	}
+
 	
 	
 	GUI()
@@ -191,5 +163,36 @@ public class GUI
 	public void deleteFrame()
 	{
 		frame.dispose();
+	}
+	
+	//GETTERS
+	public String getRadioButtonNameWall()
+	{
+		return radioButtonNameWall;
+	}
+	public String getRadioButtonNameEnd()
+	{
+		return radioButtonNameEnd;
+	}
+	public String getRadioButtonNameStart()
+	{
+		return radioButtonNameStart;
+	}
+	
+	public String getJButtonNameFindPath()
+	{
+		return jbuttonNameFindPath;
+	}
+	public String getJButtonNameNextStep()
+	{
+		return jbuttonNameNextStep;
+	}
+	public String getJButtonNameRandomMaze()
+	{
+		return jbuttonNameRandomMaze;
+	}
+	public String getJButtonNameClear()
+	{
+		return jbuttonNameClear;
 	}
 }

@@ -53,8 +53,12 @@ public class NodeButton extends JButton
                  h + "</td></tr></table></html>";
 
 		button.setText(htmlForButton);
-		button.setHorizontalTextPosition(SwingConstants.LEFT);
-		button.setVerticalTextPosition(SwingConstants.TOP);
+	}
+	
+	//Override so I can put an S or E for the start and end nodes
+	public void setButtonDisplay(String s)
+	{
+		button.setText(s);
 	}
 	
 	//Called from Node when we edit the f value

@@ -19,18 +19,6 @@ public class AStar
 	private static Color colorToPlace = possibleColors[0];
 	
 	
-	public static int getRows()
-	{
-		return rows;
-	}
-	public static int getCols()
-	{
-		return cols;
-	}
-	public static char getOpenCharacter()
-	{
-		return openCharacter;
-	}
 	public static void main(String[] args) 
 	{
 		setupButtonsAndArray();
@@ -95,6 +83,9 @@ public class AStar
 	
 	public static void updateBoardAfterClickEvent(int r, int c)
 	{
+		//clear the node of any values it might already have
+		clearNode(grid[r][c]);
+		
 		//If I am placing something over the start (changing it from start to a wall or start to end)
 		//Make sure to set start to null so the simulation cannot take place until there is a start
 		if(startLocation == grid[r][c])
@@ -114,7 +105,8 @@ public class AStar
 		{
 			eraseStart();
 			startLocation = grid[r][c];
-			grid[r][c].setHValue(characterToPlace);
+			//if I am placing the start or end node I want to have it display this instead
+			grid[r][c].getNodeButton().setButtonDisplay("Start");
 		}
 		//If I am place the end location
 		//check to make sure there is not already an end defined.
@@ -122,7 +114,8 @@ public class AStar
 		{
 			eraseEnd();
 			endLocation = grid[r][c];
-			grid[r][c].setHValue(characterToPlace);
+			//if I am placing the start or end node I want to have it display this instead
+			grid[r][c].getNodeButton().setButtonDisplay("End");
 		}
 
 		grid[r][c].setValue(characterToPlace);
@@ -179,6 +172,20 @@ public class AStar
 		node.setValue('-');
 		node.getNodeButton().setBackGroundColor(openColor);
 		node.getNodeButton().clearButtonText();
+	}
+	
+	//GETTERS
+	public static int getRows()
+	{
+		return rows;
+	}
+	public static int getCols()
+	{
+		return cols;
+	}
+	public static char getOpenCharacter()
+	{
+		return openCharacter;
 	}
 
 }
