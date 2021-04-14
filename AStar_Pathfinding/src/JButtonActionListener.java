@@ -6,30 +6,30 @@ import javax.swing.JButton;
 
 public class JButtonActionListener implements ActionListener
 {
-	GUI gui = new GUI();
+
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		JButton buttonPressed = (JButton)e.getSource();
 		String buttonName = buttonPressed.getName();
 		
-		if(buttonName.equals(gui.getJButtonNameClear()))
+		if(buttonName.equals(GUI.getJButtonNameClear()))
 		{
 			AStar.resetBoard();
 		}
-		else if(buttonName.equals(gui.getJButtonNameFindPath()))
+		else if(buttonName.equals(GUI.getJButtonNameFindPath()))
 		{
 			//ai to solve for path
 		}
-		else if(buttonName.equals(gui.getJButtonNameNextStep()))
+		else if(buttonName.equals(GUI.getJButtonNameNextStep()))
 		{
 			//One step forward in the solution
 		}
-		else if(buttonName.equals(gui.getJButtonNameRandomMaze()))
+		else if(buttonName.equals(GUI.getJButtonNameRandomMaze()))
 		{
 			try 
 			{
-				AStar.readRandomMaze();
+				FileIO.readRandomMaze();
 			} catch (IOException e1) 
 			{
 				e1.printStackTrace();

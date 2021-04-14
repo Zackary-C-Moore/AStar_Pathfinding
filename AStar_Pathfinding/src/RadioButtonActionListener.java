@@ -5,22 +5,21 @@ import javax.swing.JRadioButton;
 
 public class RadioButtonActionListener implements ActionListener
 {
-	GUI gui = new GUI();
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		JRadioButton radioButtonSelected = (JRadioButton)e.getSource();
 		String radioButtonName = radioButtonSelected.getName();
 		
-		if(radioButtonName.equals(gui.getRadioButtonNameWall()))
+		if(radioButtonName.equals(GUI.getRadioButtonNameWall()))
 		{
 			AStar.setCharacterColorToPlace(0);
 		}
-		else if(radioButtonName.equals(gui.getRadioButtonNameStart()))
+		else if(radioButtonName.equals(GUI.getRadioButtonNameStart()))
 		{
 			AStar.setCharacterColorToPlace(1);
 		}
-		else if(radioButtonName.equals(gui.getRadioButtonNameEnd()))
+		else if(radioButtonName.equals(GUI.getRadioButtonNameEnd()))
 		{
 			AStar.setCharacterColorToPlace(2);
 		}

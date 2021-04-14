@@ -25,7 +25,7 @@ public class AStar
 	private static Color colorToPlace = possibleColors[0];
 	
 	
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args)
 	{
 		setupButtonsAndArray();
 		//You can do either way but the first way requires that I create a setBackGroundColor() function in NodeButton
@@ -44,8 +44,7 @@ public class AStar
 	//to pass the information back to add to 2d array.
 	public static void setupButtonsAndArray()
 	{
-		GUI gui = new GUI();
-		gui.setupFrame();
+		GUI.setupFrame();
 		for(int r = 0; r < numRows; r++)
 		{
 			for(int c = 0; c < numCols; c++)
@@ -53,16 +52,10 @@ public class AStar
 				grid[r][c] = new Node();
 				grid[r][c].setCol(c);
 				grid[r][c].setRow(r);
-				grid[r][c].setNodeButton(gui.addButtons());
-				grid[r][c].getNodeButton().setBackGroundColor(openColor);
-				//You can do either way but the first way requires that I create a setName() function in NodeButton
-				grid[r][c].getNodeButton().setName(r,c);
-				//grid[r][c].getNodeButton().getButton().setName(r + "," + c);
-				//Add action listener to all of my buttons.
-				grid[r][c].getNodeButton().getButton().addActionListener(new NodeButtonActionListener());
+				grid[r][c].setNodeButton(GUI.addButtons(r,c));
 			}
 		}
-		gui.showFrame();
+		GUI.showFrame();
 	}
 	
 	//Debugging purposes so I can make sure the GUI and the 2d array are identical.
@@ -180,42 +173,16 @@ public class AStar
 		node.getNodeButton().clearButtonText();
 	}
 	
-	public static void readRandomMaze() throws IOException
-	{
-		try 
-		{
-			startLocation = null;
-			endLocation = null;
-			FileReader input = new FileReader(new File("maze00.txt"));
-			int text;
-			int r = 0;
-			int c = 0;
-			while((text = input.read()) != -1)
-			{
-				//determine how many columns have been read
-				if(c == numCols)
-				{
-					c = 0;
-					r++;
-				}
-				//ignore the text if it is a new line or carriage return
-				if(text != 10 && text != 13)
-				{
-					//load what we read into the array
-					loadMazeIntoArray(r, c, (char)text);
-					c++;
-				}
-				
-			}
-			displayBoard();
-		} catch (FileNotFoundException e) 
-		{
-			System.out.println("Error: File not found");
-		}
-	}
 	
 	public static void loadMazeIntoArray(int r, int c, char val)
 	{
+//		//erase start and finish if this is the first time calling this function
+//		//a reading loop will call this and we need a to set the 
+//		if(r == 0)
+//		{
+//			startLocation = null;
+//			endLocation = null;
+//		}
 		//delete all the information in the node
 		clearNode(grid[r][c]);
 		Color color = null;
@@ -264,6 +231,10 @@ public class AStar
 	public static char getOpenCharacter()
 	{
 		return openCharacter;
+	}
+	public static Color getOpenColor()
+	{
+		return openColor;
 	}
 
 }

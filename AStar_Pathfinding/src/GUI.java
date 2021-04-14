@@ -1,26 +1,28 @@
+import java.awt.Color;
+
 import javax.swing.*;
 
 public class GUI 
 {
-	private int rows = AStar.getRows();
-	private int cols = AStar.getCols();
-	private int xFrameSize = 1890;
-	private int yFrameSize = 1035;
-	private JFrame frame;
-	private JPanel buttonPanel;
-	private int xPos = 0;
-	private int yPos = 0;
-	private int colCount = 0;
-	private ButtonGroup radioButtonGroup;
+	private static int rows = AStar.getRows();
+	private static int cols = AStar.getCols();
+	private static int xFrameSize = 1890;
+	private static int yFrameSize = 1035;
+	private static JFrame frame;
+	private static JPanel buttonPanel;
+	private static int xPos = 0;
+	private static int yPos = 0;
+	private static int colCount = 0;
+	private static ButtonGroup radioButtonGroup;
 	
-	private String radioButtonNameWall = "radioButtonWall";
-	private String radioButtonNameEnd = "radioButtonEnd";
-	private String radioButtonNameStart = "radioButtonStart";
+	private static String radioButtonNameWall = "radioButtonWall";
+	private static String radioButtonNameEnd = "radioButtonEnd";
+	private static String radioButtonNameStart = "radioButtonStart";
 	
-	private String jbuttonNameFindPath = "findPathBtn";
-	private String jbuttonNameNextStep = "nextStepBtn";
-	private String jbuttonNameRandomMaze = "randomMazeBtn";
-	private String jbuttonNameClear = "clearBtn";
+	private static String jbuttonNameFindPath = "findPathBtn";
+	private static String jbuttonNameNextStep = "nextStepBtn";
+	private static String jbuttonNameRandomMaze = "randomMazeBtn";
+	private static String jbuttonNameClear = "clearBtn";
 	
 	
 
@@ -30,7 +32,7 @@ public class GUI
 	{
 		
 	}
-	public void setupFrame()
+	public static void setupFrame()
 	{
 		frame = new JFrame("");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +47,7 @@ public class GUI
 		setupRunButtons();
 	}
 	
-	public void setupRadioButtons()
+	public static void setupRadioButtons()
 	{
 		//create radio buttons
 		JRadioButton wallRadioButton = new JRadioButton();
@@ -89,7 +91,7 @@ public class GUI
 		radioButtonGroup.add(startRadioButton);
 	}
 	
-	public void setupRunButtons()
+	public static void setupRunButtons()
 	{
 		JButton findPathBtn = new JButton("Find Path");
 		JButton stepBtn = new JButton("Next Step");
@@ -124,21 +126,11 @@ public class GUI
 	//function called by AStar to create new NodeButtons and
 	//1. add them to my form - done below
 	//2. add them to my 2d array - done in AStar
-	public NodeButton addButtons()
+	public static NodeButton addButtons(int r, int c)
 	{
 		//Create a new button
 		NodeButton nodeBtn = new NodeButton();
-		
-		//If the colCount == cols then I need to make a new row.
-		if(colCount == cols)
-		{
-			colCount = 0;
-			xPos = 0;
-			//add to yPos the height of the button so they are evenly spaced.
-			yPos += nodeBtn.getButtonSize().height;
-		}
-		
-		
+
 		//Set the position and size of the button
 		nodeBtn.getButton().setBounds(xPos,yPos,nodeBtn.getButtonSize().width, nodeBtn.getButtonSize().height);
 		//Get the button from NodeButton and place it on my panel
@@ -146,13 +138,26 @@ public class GUI
 		//add to xPos the width of the button so they are evenly spaced.
 		xPos += nodeBtn.getButtonSize().width;
 		
-		colCount++;
+		//NEEDS TO CHANGE SO ITS NOT HARDCODED
+		nodeBtn.setBackGroundColor(AStar.getOpenColor());
+		//set action listener for the button
+		nodeBtn.getButton().addActionListener(new NodeButtonActionListener());
+		//set the name equal to the row and column that it corresponds with
+		nodeBtn.setName(r,c);
+		
+		//If the c == cols then I need to make a new row.
+		if(c == cols - 1)
+		{
+			xPos = 0;
+			//add to yPos the height of the button so they are evenly spaced.
+			yPos += nodeBtn.getButtonSize().height;
+		}
 		
 		//Return the button to AStar to add to array.
 		return nodeBtn;
 	}
 	
-	public void showFrame()
+	public static void showFrame()
 	{
 		//Place the panel on the frame.
 		frame.add(buttonPanel);
@@ -166,32 +171,32 @@ public class GUI
 	}
 	
 	//GETTERS
-	public String getRadioButtonNameWall()
+	public static String getRadioButtonNameWall()
 	{
 		return radioButtonNameWall;
 	}
-	public String getRadioButtonNameEnd()
+	public static String getRadioButtonNameEnd()
 	{
 		return radioButtonNameEnd;
 	}
-	public String getRadioButtonNameStart()
+	public static String getRadioButtonNameStart()
 	{
 		return radioButtonNameStart;
 	}
 	
-	public String getJButtonNameFindPath()
+	public static String getJButtonNameFindPath()
 	{
 		return jbuttonNameFindPath;
 	}
-	public String getJButtonNameNextStep()
+	public static String getJButtonNameNextStep()
 	{
 		return jbuttonNameNextStep;
 	}
-	public String getJButtonNameRandomMaze()
+	public static String getJButtonNameRandomMaze()
 	{
 		return jbuttonNameRandomMaze;
 	}
-	public String getJButtonNameClear()
+	public static String getJButtonNameClear()
 	{
 		return jbuttonNameClear;
 	}
