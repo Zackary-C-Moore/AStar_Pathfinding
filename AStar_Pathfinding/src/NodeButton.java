@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 public class NodeButton extends JButton
 {
+	//can change this to 65 and make buttons smaller with new text display below
 	private Dimension buttonSize = new Dimension(80,80);
 	private JButton button;
 	private JLabel fLabel;
@@ -51,8 +52,13 @@ public class NodeButton extends JButton
 		
 		htmlForButton = "<html><table border = 0 style = 'font-size: 8px; horizontal-align:left'><tr><td>" + f + "</td></tr><tr><td>" + g +"</td></tr><tr><td>"+
                  h + "</td></tr></table></html>";
+		//can change button sizes to be smaller.
+		//htmlForButton = "<html>" + f + "<br>" + g + "<br>" + h + "</html>";
 
+		button.setHorizontalAlignment(SwingConstants.LEFT);
+		button.setVerticalAlignment(SwingConstants.TOP);
 		button.setText(htmlForButton);
+		
 	}
 	
 	//Override so I can put an S or E for the start and end nodes

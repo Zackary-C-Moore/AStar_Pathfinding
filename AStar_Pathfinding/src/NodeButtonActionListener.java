@@ -7,7 +7,7 @@ import javax.swing.JButton;
 public class NodeButtonActionListener implements ActionListener
 {
 	@Override
-	public void actionPerformed(ActionEvent e) 
+	public void actionPerformed(ActionEvent e)
 	{
 		//Figure out which button was pressed
 		JButton buttonPressed = (JButton)e.getSource();

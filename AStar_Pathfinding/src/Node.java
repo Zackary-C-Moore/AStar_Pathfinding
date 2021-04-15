@@ -6,7 +6,7 @@ public class Node
 	private int f = 0;
 	private NodeButton btn;
 	private boolean openSpot = true;
-	private char value = AStar.getOpenCharacter();
+	private char value = Details.getOpenCharacter();
 	private int row;
 	private int col;
 	

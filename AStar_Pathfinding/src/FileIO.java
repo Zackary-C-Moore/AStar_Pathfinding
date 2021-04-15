@@ -18,9 +18,7 @@ public class FileIO
 	public static void saveMazeSetup() throws IOException
 	{
 		readNumMazes();
-		//write a file
 		writeMaze();
-		//increment number of mazes and save it
 		writeNumMazes();
 	}
 	//Write the maze we just made to a text file
@@ -31,9 +29,9 @@ public class FileIO
 			//concatenate to make a new unique text file name
 			//do not increment numberOfMazes here because my naming and counting are off by one (started naming at 0)
 			FileWriter writer = new FileWriter(new File("maze" + numberOfMazes + ".txt"));
-			for(int r = 0; r < AStar.getRows(); r++)
+			for(int r = 0; r < Details.getNumRows(); r++)
 			{
-				for(int c = 0; c < AStar.getCols(); c++)
+				for(int c = 0; c < Details.getNumCols(); c++)
 				{
 					//-----this might need some additional work when if I let the user save mazes
 					//-----that are solved (maybe no erasing the maze)
@@ -99,7 +97,7 @@ public class FileIO
 			while((text = input.read()) != -1)
 			{
 				//determine how many columns have been read
-				if(c == AStar.getCols())
+				if(c == Details.getNumCols())
 				{
 					c = 0;
 					r++;

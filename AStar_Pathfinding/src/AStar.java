@@ -10,19 +10,13 @@ import java.util.Scanner;
 
 public class AStar
 {
-	public static final int numRows = 12;
-	public static final int numCols = 23;
-	public static final char openCharacter = '-';
-	public static final Color openColor = Color.gray;
+	private static int numRows = Details.getNumRows();
+	private static int numCols = Details.getNumCols();
 	private static final Node grid[][] = new Node[numRows][numCols];
 	private static Node startLocation = null;
 	private static Node endLocation = null;
-	//used as a lookup table
-	//pos 0 = wall pos 1 = start pos 2 = end
-	private static final Color[] possibleColors = {Color.black, Color.cyan, Color.magenta};
-	private static final char[] possibleCharacters = {'W','S','E'};
-	private static char characterToPlace = possibleCharacters[0];
-	private static Color colorToPlace = possibleColors[0];
+	private static char characterToPlace = Details.getWallCharacter();
+	private static Color colorToPlace = Details.getWallColor();
 	
 	
 	public static void main(String[] args)
@@ -31,9 +25,9 @@ public class AStar
 		//You can do either way but the first way requires that I create a setBackGroundColor() function in NodeButton
 		//grid[7][15].getNodeButton().setBackGroundColor(Color.red);
 		//grid[7][15].getNodeButton().getButton().setBackground(Color.red);
-		//grid[0][0].setFValue(100);
+		//grid[0][0].setFValue(20);
 		//grid[0][0].setGValue(25);
-		//grid[0][0].setHValue(300);
+		//grid[0][0].setHValue(30);
 		//This could also work to get the button to display the correct h value
 		//But I think it is easier to have .setHValue() in the Node class call
 		//setHDisplay in the NodeButton class.  The logic is, every time I wan to 
@@ -100,7 +94,7 @@ public class AStar
 		
 		//If I am placing the start location
 		//check to make sure there is not already a start defined.
-		if(characterToPlace == possibleCharacters[1])
+		if(characterToPlace == Details.getStartCharacter())
 		{
 			eraseStart();
 			startLocation = grid[r][c];
@@ -109,7 +103,7 @@ public class AStar
 		}
 		//If I am place the end location
 		//check to make sure there is not already an end defined.
-		else if(characterToPlace == possibleCharacters[2])
+		else if(characterToPlace == Details.getEndCharacter())
 		{
 			eraseEnd();
 			endLocation = grid[r][c];
@@ -122,11 +116,11 @@ public class AStar
 		displayBoard();
 	}
 	
-	public static void setCharacterColorToPlace(int x)
+	public static void setCharacterColorToPlace(char v, Color c)
 	{
 		//0 = wall 1 = start 2 = end
-		characterToPlace = possibleCharacters[x];
-		colorToPlace = possibleColors[x];
+		characterToPlace = v;
+		colorToPlace = c;
 	}
 	
 
@@ -169,7 +163,7 @@ public class AStar
 	public static void clearNode(Node node)
 	{
 		node.setValue('-');
-		node.getNodeButton().setBackGroundColor(openColor);
+		node.getNodeButton().setBackGroundColor(Details.getOpenColor());
 		node.getNodeButton().clearButtonText();
 	}
 	
@@ -181,31 +175,32 @@ public class AStar
 		Color color = null;
 		
 		//figure out what color to set the button
-		if(val == possibleCharacters[0])
+		//wall
+		if(val == Details.getWallCharacter())
 		{
-			color = possibleColors[0];
+			color = Details.getWallColor();
 		}
 		//start location
-		else if(val == possibleCharacters[1])
+		else if(val == Details.getStartCharacter())
 		{
-			color = possibleColors[1];
+			color = Details.getStartColor();
 			startLocation = grid[r][c];
 			grid[r][c].getNodeButton().setButtonDisplay("Start");
 		}
 		//end location
-		else if(val == possibleCharacters[2])
+		else if(val == Details.getEndCharacter())
 		{
-			color = possibleColors[2];
+			color = Details.getEndColor();
 			endLocation = grid[r][c];
 			grid[r][c].getNodeButton().setButtonDisplay("End");
 		}
-		else if(val == openCharacter)
+		else if(val == Details.getOpenCharacter())
 		{
-			color = openColor;
+			color = Details.getOpenColor();
 		}
 		else
 		{
-			System.out.println("Error: Reading file");
+			System.out.println("Error: Reading file bad character read");
 		}
 		
 		//set the value to what was read in the text file.
@@ -217,22 +212,6 @@ public class AStar
 	}
 	
 	//GETTERS
-	public static int getRows()
-	{
-		return numRows;
-	}
-	public static int getCols()
-	{
-		return numCols;
-	}
-	public static char getOpenCharacter()
-	{
-		return openCharacter;
-	}
-	public static Color getOpenColor()
-	{
-		return openColor;
-	}
 	public static Node getNodeFromArray(int r, int c)
 	{
 		return grid[r][c];

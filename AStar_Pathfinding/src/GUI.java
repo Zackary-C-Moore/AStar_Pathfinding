@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class GUI 
 {
-	private static int rows = AStar.getRows();
-	private static int cols = AStar.getCols();
+	private static int rows = Details.getNumRows();
+	private static int cols = Details.getNumCols();
 	private static int xFrameSize = 1890;
 	private static int yFrameSize = 1035;
 	private static JFrame frame;
@@ -145,7 +145,7 @@ public class GUI
 		xPos += nodeBtn.getButtonSize().width;
 		
 		//NEEDS TO CHANGE SO ITS NOT HARDCODED
-		nodeBtn.setBackGroundColor(AStar.getOpenColor());
+		nodeBtn.setBackGroundColor(Details.getOpenColor());
 		//set action listener for the button
 		nodeBtn.getButton().addActionListener(new NodeButtonActionListener());
 		//set the name equal to the row and column that it corresponds with
