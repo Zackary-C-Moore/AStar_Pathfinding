@@ -33,7 +33,7 @@ public class AStar
 		//setHDisplay in the NodeButton class.  The logic is, every time I wan to 
 		//change a nodes value then display should be changed as well.
 		//grid[0][0].getNodeButton().setHDisplay(String.valueOf(grid[0][0].getHValue()));
-		determineAdjacentNodes(grid[5][5]);
+		//determineAdjacentNodes(grid[5][5]);
 	}
 	//Might want to move this logic to GUI and then create a function here
 	//to pass the information back to add to 2d array.
@@ -212,15 +212,24 @@ public class AStar
 		
 	}
 	
-	public static void determineAdjacentNodes(Node node)
+	public static void determineAdjacentNodes(Node node, boolean checkStart)
 	{
 		boolean up = false;
 		boolean left = false;
 		boolean right = false;
 		boolean down = false;
 		Node possibleAdjNode = null;
-		int r = node.getRow();
-		int c = node.getCol();
+		int r;
+		int c;
+		
+		if(checkStart)
+		{
+			node = startLocation;
+		}
+		
+		r = node.getRow();
+		c = node.getCol();
+		
 		if(node.getRow() > 0)
 		{
 			//can check UP
