@@ -5,7 +5,6 @@ public class Node
 	private int g = 0;
 	private int f = 0;
 	private NodeButton btn;
-	private boolean openSpot = true;
 	private char value = Details.getOpenCharacter();
 	private int row;
 	private int col;
@@ -26,10 +25,6 @@ public class Node
 	public NodeButton getNodeButton()
 	{
 		return btn;
-	}
-	public boolean isOpenSpot()
-	{
-		return openSpot;
 	}
 	public char getValue()
 	{
@@ -66,10 +61,6 @@ public class Node
 	{
 		this.btn = btn;
 	}
-	public void setOpenSpot(boolean o)
-	{
-		openSpot = o;
-	}
 	public void setValue(char v)
 	{
 		value = v;
@@ -82,4 +73,19 @@ public class Node
 	{
 		col = c;
 	}
+	
+	public boolean isOpenSpot()
+	{
+		if(value == Details.getOpenCharacter())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	
 }

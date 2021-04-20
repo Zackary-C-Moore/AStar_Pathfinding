@@ -33,6 +33,7 @@ public class AStar
 		//setHDisplay in the NodeButton class.  The logic is, every time I wan to 
 		//change a nodes value then display should be changed as well.
 		//grid[0][0].getNodeButton().setHDisplay(String.valueOf(grid[0][0].getHValue()));
+		determineAdjacentNodes(grid[5][5]);
 	}
 	//Might want to move this logic to GUI and then create a function here
 	//to pass the information back to add to 2d array.
@@ -209,6 +210,91 @@ public class AStar
 		grid[r][c].getNodeButton().setBackGroundColor(color);
 		
 		
+	}
+	
+	public static void determineAdjacentNodes(Node node)
+	{
+		boolean up = false;
+		boolean left = false;
+		boolean right = false;
+		boolean down = false;
+		Node possibleAdjNode = null;
+		int r = node.getRow();
+		int c = node.getCol();
+		if(node.getRow() > 0)
+		{
+			//can check UP
+			up = true;
+			possibleAdjNode = grid[r - 1][c];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		if(node.getRow() < Details.getNumRows() - 1)
+		{
+			//can check DOWN
+			down = true;
+			possibleAdjNode = grid[r + 1][c];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		if(node.getCol() > 0)
+		{
+			//can check LEFT
+			left = true;
+			possibleAdjNode = grid[r][c - 1];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		if(node.getCol() < Details.getNumCols() - 1)
+		{
+			//can check RIGHT
+			right = true;
+			possibleAdjNode = grid[r][c + 1];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		
+		//check diagonals
+		if(up && left)
+		{
+			possibleAdjNode = grid[r - 1][c - 1];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		if(up && right)
+		{
+			possibleAdjNode = grid[r - 1][c + 1];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		if(down && left)
+		{
+			possibleAdjNode = grid[r + 1][c - 1];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}
+		if(down && right)
+		{
+			possibleAdjNode = grid[r + 1][c + 1];
+			if(possibleAdjNode.isOpenSpot())
+			{
+				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+			}
+		}	
 	}
 	
 	//GETTERS
