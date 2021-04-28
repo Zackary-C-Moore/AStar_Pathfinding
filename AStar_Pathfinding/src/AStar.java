@@ -20,6 +20,7 @@ public class AStar
 	private static ArrayList<Node> openSet = new ArrayList<Node>();
 	//start as empty
 	private static ArrayList<Node> closedSet = new ArrayList<Node>();
+	private static boolean firstLoad = true;
 	
 	
 	public static void main(String[] args)
@@ -235,7 +236,7 @@ public class AStar
 			//can check UP
 			up = true;
 			possibleAdjNode = grid[r - 1][c];
-			if(possibleAdjNode.isOpenSpot())
+			if(!possibleAdjNode.isWall())
 			{
 				//possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
 				adjacentNodeEvaluation(currentNode, possibleAdjNode);
@@ -246,7 +247,7 @@ public class AStar
 			//can check DOWN
 			down = true;
 			possibleAdjNode = grid[r + 1][c];
-			if(possibleAdjNode.isOpenSpot())
+			if(!possibleAdjNode.isWall())
 			{
 				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
@@ -256,7 +257,7 @@ public class AStar
 			//can check LEFT
 			left = true;
 			possibleAdjNode = grid[r][c - 1];
-			if(possibleAdjNode.isOpenSpot())
+			if(!possibleAdjNode.isWall())
 			{
 				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
@@ -266,45 +267,45 @@ public class AStar
 			//can check RIGHT
 			right = true;
 			possibleAdjNode = grid[r][c + 1];
-			if(possibleAdjNode.isOpenSpot())
+			if(!possibleAdjNode.isWall())
 			{
 				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
 		}
 		
 		//check diagonals
-//		if(up && left)
-//		{
-//			possibleAdjNode = grid[r - 1][c - 1];
-//			if(possibleAdjNode.isOpenSpot())
-//			{
-//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-//			}
-//		}
-//		if(up && right)
-//		{
-//			possibleAdjNode = grid[r - 1][c + 1];
-//			if(possibleAdjNode.isOpenSpot())
-//			{
-//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-//			}
-//		}
-//		if(down && left)
-//		{
-//			possibleAdjNode = grid[r + 1][c - 1];
-//			if(possibleAdjNode.isOpenSpot())
-//			{
-//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-//			}
-//		}
-//		if(down && right)
-//		{
-//			possibleAdjNode = grid[r + 1][c + 1];
-//			if(possibleAdjNode.isOpenSpot())
-//			{
-//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-//			}
-//		}	
+		if(up && left)
+		{
+			possibleAdjNode = grid[r - 1][c - 1];
+			if(!possibleAdjNode.isWall())
+			{
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+			}
+		}
+		if(up && right)
+		{
+			possibleAdjNode = grid[r - 1][c + 1];
+			if(!possibleAdjNode.isWall())
+			{
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+			}
+		}
+		if(down && left)
+		{
+			possibleAdjNode = grid[r + 1][c - 1];
+			if(!possibleAdjNode.isWall())
+			{
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+			}
+		}
+		if(down && right)
+		{
+			possibleAdjNode = grid[r + 1][c + 1];
+			if(!possibleAdjNode.isWall())
+			{
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+			}
+		}	
 	}
 	
 	public static boolean adjacentNodeInClosedSet(Node adjNode)
@@ -335,7 +336,7 @@ public class AStar
 	{
 		int tempG = 0;
 		//if we have not already evaluated this node: it is not in the closed set
-		if(adjacentNodeInClosedSet(adjNode) == false)
+		if(!adjacentNodeInClosedSet(adjNode) && !adjNode.isWall())
 		{
 			//Calculating G value
 			tempG = currentNode.getGValue() + 1;
@@ -384,20 +385,27 @@ public class AStar
 	
 	public static void findPath()
 	{
-		openSet.add(startLocation);
 		int indexToExplore = 0;
-		Node nodeToExplore = startLocation;
-
-		//Keep cycling through until openSet is empty or until I find the end.
-		while(!openSet.isEmpty())
+		Node nodeToExplore = null;
+		if(firstLoad)
 		{
-			//colorOpenSet();
+			openSet.add(startLocation);
+			firstLoad = false;
+		}
+		
+		
+		//System.out.println("NodeToExplore: " + nodeToExplore.getRow() + ", " + nodeToExplore.getCol());
+		//Keep cycling through until openSet is empty or until I find the end.
+		//while(!openSet.isEmpty())
+		//{
+			nodeToExplore = openSet.get(indexToExplore);
+			colorOpenSet();
 			
 			for(int i = 0; i < openSet.size(); i++)
 			{
 				//find the lowest f value
 				//assume the first one in the list is the lowest from the start
-				System.out.println("F Values: " + openSet.get(i).getFValue() + " " + openSet.get(indexToExplore).getFValue());
+				System.out.println("F Values: " + openSet.get(i).getFValue());
 				if(openSet.get(i).getFValue() < openSet.get(indexToExplore).getFValue())
 				{
 					System.out.println("F Chosen -- " + openSet.get(i).getFValue());
@@ -405,25 +413,26 @@ public class AStar
 					nodeToExplore = openSet.get(i);
 				}
 			}
-
+			nodeToExplore.getNodeButton().setBackGroundColor(Color.white);
+			
 			//we found the end
 			if(nodeToExplore == endLocation)
 			{
 				//We found the end
 				System.out.println("Found end");
 				showPath(nodeToExplore);
-				break;
+				//break;
 			}
 			//we have not found the end yet
 			else
 			{
 				openSet.remove(indexToExplore);
 				closedSet.add(nodeToExplore);
+				nodeToExplore.getNodeButton().setBackGroundColor(Color.red);
 				determineAdjacentNodes(nodeToExplore);
 				colorOpenSet();
 			}
-			//openSet.clear();
-		}
+		//}
 		//there is no solution 
 		if(openSet.isEmpty())
 		{
@@ -444,9 +453,11 @@ public class AStar
 	
 	public static void colorOpenSet()
 	{
+		System.out.println("Open Set");
 		for(int i = 0; i < openSet.size(); i++)
 		{
 			openSet.get(i).getNodeButton().setBackGroundColor(Color.ORANGE);
+			
 			System.out.println(openSet.get(i).getRow() + ", " + openSet.get(i).getCol());
 		}
 	}

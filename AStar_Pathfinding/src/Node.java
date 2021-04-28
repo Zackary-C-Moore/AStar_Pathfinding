@@ -89,13 +89,25 @@ public class Node
 	
 	public boolean isOpenSpot()
 	{
-		if(value == Details.getWallCharacter())
+		if(value == Details.getOpenCharacter())
 		{
-			return false;
+			return true;
 		}
 		else
 		{
+			return false;
+		}
+	}
+	
+	public boolean isWall()
+	{
+		if(value == Details.getWallCharacter())
+		{
 			return true;
+		}
+		else 
+		{
+			return false;
 		}
 	}
 	
