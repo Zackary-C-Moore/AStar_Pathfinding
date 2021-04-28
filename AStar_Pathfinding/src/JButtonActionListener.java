@@ -20,11 +20,11 @@ public class JButtonActionListener implements ActionListener
 		else if(buttonName.equals(GUI.getJButtonNameFindPath()))
 		{
 			//ai to solve for path
+			AStar.findPath();
 		}
 		else if(buttonName.equals(GUI.getJButtonNameNextStep()))
 		{
 			//One step forward in the solution
-			AStar.determineAdjacentNodes(null, true);
 		}
 		else if(buttonName.equals(GUI.getJButtonNameRandomMaze()))
 		{

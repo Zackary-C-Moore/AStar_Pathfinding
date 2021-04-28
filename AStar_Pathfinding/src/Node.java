@@ -1,13 +1,18 @@
 
 public class Node 
 {
+	//what is my guess to get to the end from this node
 	private int h = 0;
+	//how long did it take me to get to this node from the start
 	private int g = 0;
+	//score for this node
 	private int f = 0;
 	private NodeButton btn;
 	private char value = Details.getOpenCharacter();
 	private int row;
 	private int col;
+	//need to know who called this node so I can backtrack and generate the path once I find the end.
+	private Node previousNode;
 	
 	//getters
 	public int getHValue()
@@ -37,6 +42,10 @@ public class Node
 	public int getCol()
 	{
 		return col;
+	}
+	public Node getPreviousNode()
+	{
+		return previousNode;
 	}
 	//setters
 	public void setHValue(int h)
@@ -73,18 +82,23 @@ public class Node
 	{
 		col = c;
 	}
+	public void setPreviousNode(Node prev)
+	{
+		previousNode = prev;
+	}
 	
 	public boolean isOpenSpot()
 	{
-		if(value == Details.getOpenCharacter())
-		{
-			return true;
-		}
-		else
+		if(value == Details.getWallCharacter())
 		{
 			return false;
 		}
+		else
+		{
+			return true;
+		}
 	}
+	
 	
 	
 	

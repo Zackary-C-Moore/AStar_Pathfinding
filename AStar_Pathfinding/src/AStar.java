@@ -1,10 +1,8 @@
 import java.awt.Color;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
+import java.util.ArrayList;
+
+import jdk.dynalink.beans.StaticClass;
+
 
 //Zackary Moore
 
@@ -17,6 +15,11 @@ public class AStar
 	private static Node endLocation = null;
 	private static char characterToPlace = Details.getWallCharacter();
 	private static Color colorToPlace = Details.getWallColor();
+	//possible nodes to evaluate
+	//starts as startLocation
+	private static ArrayList<Node> openSet = new ArrayList<Node>();
+	//start as empty
+	private static ArrayList<Node> closedSet = new ArrayList<Node>();
 	
 	
 	public static void main(String[] args)
@@ -65,12 +68,12 @@ public class AStar
 			System.out.println();
 		}
 		if(startLocation != null)
-			System.out.println(startLocation.getRow() + ", " + startLocation.getCol());
+			System.out.println("Start: " + startLocation.getRow() + ", " + startLocation.getCol());
 		else
 			System.out.println("NOTHING");
 		
 		if(endLocation != null)
-			System.out.println(endLocation.getRow() + ", " + endLocation.getCol());
+			System.out.println("End: " + endLocation.getRow() + ", " + endLocation.getCol());
 		else
 			System.out.println("NOTHING");
 	}
@@ -212,7 +215,7 @@ public class AStar
 		
 	}
 	
-	public static void determineAdjacentNodes(Node node, boolean checkStart)
+	public static void determineAdjacentNodes(Node currentNode)
 	{
 		boolean up = false;
 		boolean left = false;
@@ -221,89 +224,231 @@ public class AStar
 		Node possibleAdjNode = null;
 		int r;
 		int c;
+		int tempG;
 		
-		if(checkStart)
-		{
-			node = startLocation;
-		}
 		
-		r = node.getRow();
-		c = node.getCol();
+		r = currentNode.getRow();
+		c = currentNode.getCol();
 		
-		if(node.getRow() > 0)
+		if(currentNode.getRow() > 0)
 		{
 			//can check UP
 			up = true;
 			possibleAdjNode = grid[r - 1][c];
 			if(possibleAdjNode.isOpenSpot())
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				//possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
 		}
-		if(node.getRow() < Details.getNumRows() - 1)
+		if(currentNode.getRow() < Details.getNumRows() - 1)
 		{
 			//can check DOWN
 			down = true;
 			possibleAdjNode = grid[r + 1][c];
 			if(possibleAdjNode.isOpenSpot())
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
 		}
-		if(node.getCol() > 0)
+		if(currentNode.getCol() > 0)
 		{
 			//can check LEFT
 			left = true;
 			possibleAdjNode = grid[r][c - 1];
 			if(possibleAdjNode.isOpenSpot())
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
 		}
-		if(node.getCol() < Details.getNumCols() - 1)
+		if(currentNode.getCol() < Details.getNumCols() - 1)
 		{
 			//can check RIGHT
 			right = true;
 			possibleAdjNode = grid[r][c + 1];
 			if(possibleAdjNode.isOpenSpot())
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				adjacentNodeEvaluation(currentNode, possibleAdjNode);
 			}
 		}
 		
 		//check diagonals
-		if(up && left)
+//		if(up && left)
+//		{
+//			possibleAdjNode = grid[r - 1][c - 1];
+//			if(possibleAdjNode.isOpenSpot())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}
+//		if(up && right)
+//		{
+//			possibleAdjNode = grid[r - 1][c + 1];
+//			if(possibleAdjNode.isOpenSpot())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}
+//		if(down && left)
+//		{
+//			possibleAdjNode = grid[r + 1][c - 1];
+//			if(possibleAdjNode.isOpenSpot())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}
+//		if(down && right)
+//		{
+//			possibleAdjNode = grid[r + 1][c + 1];
+//			if(possibleAdjNode.isOpenSpot())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}	
+	}
+	
+	public static boolean adjacentNodeInClosedSet(Node adjNode)
+	{
+		for(int i = 0; i < closedSet.size(); i++)
 		{
-			possibleAdjNode = grid[r - 1][c - 1];
-			if(possibleAdjNode.isOpenSpot())
+			if(adjNode == closedSet.get(i))
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				return true;
 			}
 		}
-		if(up && right)
+		return false;
+	}
+	
+	public static boolean adjacentNodeInOpenSet(Node adjNode)
+	{
+		for(int i = 0; i < openSet.size(); i++)
 		{
-			possibleAdjNode = grid[r - 1][c + 1];
-			if(possibleAdjNode.isOpenSpot())
+			if(adjNode == openSet.get(i))
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				return true;
 			}
 		}
-		if(down && left)
+		return false;
+	}
+	
+	public static void adjacentNodeEvaluation(Node currentNode, Node adjNode)
+	{
+		int tempG = 0;
+		//if we have not already evaluated this node: it is not in the closed set
+		if(adjacentNodeInClosedSet(adjNode) == false)
 		{
-			possibleAdjNode = grid[r + 1][c - 1];
-			if(possibleAdjNode.isOpenSpot())
+			//Calculating G value
+			tempG = currentNode.getGValue() + 1;
+			
+			//we need to see if this node is already in the open list
+			//We could have already seen this node and not ruled it out yet
+			if(adjacentNodeInOpenSet(adjNode))
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				//if this node has already been seen: in our openset
+				//we want to see which one has a lower g value
+				if(tempG < adjNode.getGValue())
+				{
+					//set the g value because we have found a better g value for this node
+					adjNode.setGValue(tempG);
+				}
 			}
+			//this adjacent node is not in the open list
+			else 
+			{
+				//add this to our list of nodes to explore and set its g value
+				adjNode.setGValue(tempG);
+				openSet.add(adjNode);
+			}
+			
+			//Calculating H value
+			adjNode.setHValue(calculateHeuristic(adjNode));
+			//Calculating F value
+			adjNode.setFValue(adjNode.getGValue() + adjNode.getHValue());
+			//determine who called this node
+			adjNode.setPreviousNode(currentNode);
 		}
-		if(down && right)
+	}
+	
+	public static int calculateHeuristic(Node adjNode)
+	{
+		//calculate the distance from one of the adjNodes to the end.
+		int xStart = adjNode.getCol();
+		int yStart = adjNode.getRow();
+		int xEnd = endLocation.getCol();
+		int yEnd = endLocation.getRow();
+		
+		int dist = (int) Math.sqrt((xEnd - xStart) * (xEnd - xStart) + (yEnd - yStart)*(yEnd - yStart));
+		
+		return dist;
+	}
+	
+	public static void findPath()
+	{
+		openSet.add(startLocation);
+		int indexToExplore = 0;
+		Node nodeToExplore = startLocation;
+
+		//Keep cycling through until openSet is empty or until I find the end.
+		while(!openSet.isEmpty())
 		{
-			possibleAdjNode = grid[r + 1][c + 1];
-			if(possibleAdjNode.isOpenSpot())
+			//colorOpenSet();
+			
+			for(int i = 0; i < openSet.size(); i++)
 			{
-				possibleAdjNode.getNodeButton().setBackGroundColor(Color.BLUE);
+				//find the lowest f value
+				//assume the first one in the list is the lowest from the start
+				System.out.println("F Values: " + openSet.get(i).getFValue() + " " + openSet.get(indexToExplore).getFValue());
+				if(openSet.get(i).getFValue() < openSet.get(indexToExplore).getFValue())
+				{
+					System.out.println("F Chosen -- " + openSet.get(i).getFValue());
+					indexToExplore = i;
+					nodeToExplore = openSet.get(i);
+				}
 			}
-		}	
+
+			//we found the end
+			if(nodeToExplore == endLocation)
+			{
+				//We found the end
+				System.out.println("Found end");
+				showPath(nodeToExplore);
+				break;
+			}
+			//we have not found the end yet
+			else
+			{
+				openSet.remove(indexToExplore);
+				closedSet.add(nodeToExplore);
+				determineAdjacentNodes(nodeToExplore);
+				colorOpenSet();
+			}
+			//openSet.clear();
+		}
+		//there is no solution 
+		if(openSet.isEmpty())
+		{
+			//no solution
+			System.out.println("No Path Found");
+		}
+	}
+	
+	public static void showPath(Node start)
+	{
+		endLocation.getNodeButton().setBackGroundColor(Details.getEndColor());
+		while(start.getPreviousNode() != null)
+		{
+			start = start.getPreviousNode();
+			start.getNodeButton().setBackGroundColor(Color.blue);
+		}
+	}
+	
+	public static void colorOpenSet()
+	{
+		for(int i = 0; i < openSet.size(); i++)
+		{
+			openSet.get(i).getNodeButton().setBackGroundColor(Color.ORANGE);
+			System.out.println(openSet.get(i).getRow() + ", " + openSet.get(i).getCol());
+		}
 	}
 	
 	//GETTERS
