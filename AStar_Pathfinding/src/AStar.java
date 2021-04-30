@@ -160,6 +160,9 @@ public class AStar
 				clearNode(grid[r][c]);
 				startLocation = null;
 				endLocation = null;
+				closedSet = new ArrayList<Node>();
+				openSet = new ArrayList<Node>();
+				firstLoad = true;
 			}
 		}
 		
@@ -169,6 +172,9 @@ public class AStar
 	public static void clearNode(Node node)
 	{
 		node.setValue('-');
+		node.setFValue(0);
+		node.setGValue(0);
+		node.setHValue(0);
 		node.getNodeButton().setBackGroundColor(Details.getOpenColor());
 		node.getNodeButton().clearButtonText();
 	}
@@ -216,6 +222,134 @@ public class AStar
 		
 		
 	}
+	public static void findPathStep()
+	{
+		int indexToExplore;
+		Node nodeToExplore = null;
+		boolean pathFound = false;
+		
+		if(startAndEndLocationsSet())
+		{
+			if(firstLoad)
+			{
+				openSet.add(startLocation);
+				firstLoad = false;
+			}
+			
+			indexToExplore = 0;
+			nodeToExplore = openSet.get(indexToExplore);
+			
+			for(int i = 0; i < openSet.size(); i++)
+			{
+				//find the lowest f value
+				//assume the first one in the list is the lowest from the start
+				//System.out.println("F Values: " + openSet.get(i).getFValue());
+				if(openSet.get(i).getFValue() < openSet.get(indexToExplore).getFValue())
+				{
+					//System.out.println("F Chosen -- " + openSet.get(i).getFValue());
+					indexToExplore = i;
+					nodeToExplore = openSet.get(i);
+				}
+			}
+			nodeToExplore.getNodeButton().setBackGroundColor(Color.white);
+			
+			//we found the end
+			if(nodeToExplore == endLocation)
+			{
+				//We found the end
+				pathFound = true;
+				System.out.println("Found end");
+				showPath(nodeToExplore);
+			}
+			//we have not found the end yet
+			else
+			{
+				openSet.remove(indexToExplore);
+				closedSet.add(nodeToExplore);
+				determineAdjacentNodes(nodeToExplore);
+				
+				colorOpenSet();
+				colorClosedSet();
+				showPath(nodeToExplore);
+			}
+			
+			//there is no solution 
+			if(!pathFound)
+			{
+				//no solution
+				//clear blue?
+				System.out.println("No Path Found");
+			}
+		}
+		
+	}
+	public static void findPath()
+	{
+		int indexToExplore;
+		Node nodeToExplore = null;
+		boolean pathFound = false;
+		
+		
+		//System.out.println("NodeToExplore: " + nodeToExplore.getRow() + ", " + nodeToExplore.getCol());
+		//Keep cycling through until openSet is empty or until I find the end.
+		if(startAndEndLocationsSet())
+		{
+			if(firstLoad)
+			{
+				openSet.add(startLocation);
+				firstLoad = false;
+			}
+			
+			while(!openSet.isEmpty())
+			{
+				System.out.println("here");
+				indexToExplore = 0;
+				nodeToExplore = openSet.get(indexToExplore);
+				
+				for(int i = 0; i < openSet.size(); i++)
+				{
+					//find the lowest f value
+					//assume the first one in the list is the lowest from the start
+					//System.out.println("F Values: " + openSet.get(i).getFValue());
+					if(openSet.get(i).getFValue() < openSet.get(indexToExplore).getFValue())
+					{
+						//System.out.println("F Chosen -- " + openSet.get(i).getFValue());
+						indexToExplore = i;
+						nodeToExplore = openSet.get(i);
+					}
+				}
+				nodeToExplore.getNodeButton().setBackGroundColor(Color.white);
+				
+				//we found the end
+				if(nodeToExplore == endLocation)
+				{
+					//We found the end
+					pathFound = true;
+					System.out.println("Found end");
+					showPath(nodeToExplore);
+					break;
+				}
+				//we have not found the end yet
+				else
+				{
+					openSet.remove(indexToExplore);
+					closedSet.add(nodeToExplore);
+					determineAdjacentNodes(nodeToExplore);
+					
+					colorOpenSet();
+					colorClosedSet();
+					showPath(nodeToExplore);
+				}
+			}
+			//there is no solution 
+			if(!pathFound)
+			{
+				//no solution
+				//clear blue?
+				System.out.println("No Path Found");
+			}
+		}
+	}
 	
 	public static void determineAdjacentNodes(Node currentNode)
 	{
@@ -226,8 +360,6 @@ public class AStar
 		Node possibleAdjNode = null;
 		int r;
 		int c;
-		int tempG;
-		
 		
 		r = currentNode.getRow();
 		c = currentNode.getCol();
@@ -309,30 +441,6 @@ public class AStar
 		}	
 	}
 	
-	public static boolean adjacentNodeInClosedSet(Node adjNode)
-	{
-		for(int i = 0; i < closedSet.size(); i++)
-		{
-			if(adjNode == closedSet.get(i))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean adjacentNodeInOpenSet(Node adjNode)
-	{
-		for(int i = 0; i < openSet.size(); i++)
-		{
-			if(adjNode == openSet.get(i))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public static void adjacentNodeEvaluation(Node currentNode, Node adjNode)
 	{
 		int tempG = 0;
@@ -381,6 +489,32 @@ public class AStar
 		}
 	}
 	
+	public static boolean adjacentNodeInClosedSet(Node adjNode)
+	{
+		for(int i = 0; i < closedSet.size(); i++)
+		{
+			if(adjNode == closedSet.get(i))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean adjacentNodeInOpenSet(Node adjNode)
+	{
+		for(int i = 0; i < openSet.size(); i++)
+		{
+			if(adjNode == openSet.get(i))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
+	
 	public static int calculateHeuristic(Node adjNode)
 	{
 		//calculate the distance from one of the adjNodes to the end.
@@ -392,67 +526,6 @@ public class AStar
 		int dist = (int) Math.sqrt((xEnd - xStart) * (xEnd - xStart) + (yEnd - yStart)*(yEnd - yStart));
 		
 		return dist;
-	}
-	
-	public static void findPath()
-	{
-		int indexToExplore;
-		Node nodeToExplore = null;
-		if(firstLoad)
-		{
-			openSet.add(startLocation);
-			firstLoad = false;
-		}
-		
-		
-		//System.out.println("NodeToExplore: " + nodeToExplore.getRow() + ", " + nodeToExplore.getCol());
-		//Keep cycling through until openSet is empty or until I find the end.
-		//while(!openSet.isEmpty())
-		//{
-			indexToExplore = 0;
-			nodeToExplore = openSet.get(indexToExplore);
-			//colorOpenSet();
-			
-			for(int i = 0; i < openSet.size(); i++)
-			{
-				//find the lowest f value
-				//assume the first one in the list is the lowest from the start
-				//System.out.println("F Values: " + openSet.get(i).getFValue());
-				if(openSet.get(i).getFValue() < openSet.get(indexToExplore).getFValue())
-				{
-					//System.out.println("F Chosen -- " + openSet.get(i).getFValue());
-					indexToExplore = i;
-					nodeToExplore = openSet.get(i);
-				}
-			}
-			nodeToExplore.getNodeButton().setBackGroundColor(Color.white);
-			
-			//we found the end
-			if(nodeToExplore == endLocation)
-			{
-				//We found the end
-				System.out.println("Found end");
-				showPath(nodeToExplore);
-				//break;
-			}
-			//we have not found the end yet
-			else
-			{
-				openSet.remove(indexToExplore);
-				closedSet.add(nodeToExplore);
-				determineAdjacentNodes(nodeToExplore);
-				
-				colorOpenSet();
-				colorClosedSet();
-				showPath(nodeToExplore);
-			}
-		//}
-		//there is no solution 
-		if(openSet.isEmpty())
-		{
-			//no solution
-			System.out.println("No Path Found");
-		}
 	}
 	
 	public static void showPath(Node start)
@@ -467,25 +540,35 @@ public class AStar
 	
 	public static void colorClosedSet()
 	{
-		//System.out.println("Open Set");
 		for(int i = 0; i < closedSet.size(); i++)
 		{
 			closedSet.get(i).getNodeButton().setBackGroundColor(Color.RED);
-			//System.out.println(openSet.get(i).getRow() + ", " + openSet.get(i).getCol());
 		}
 	}
 	
 	public static void colorOpenSet()
 	{
-		//System.out.println("Open Set");
 		for(int i = 0; i < openSet.size(); i++)
 		{
 			openSet.get(i).getNodeButton().setBackGroundColor(Color.ORANGE);
-			//System.out.println(openSet.get(i).getRow() + ", " + openSet.get(i).getCol());
+		}
+	}
+	
+	public static boolean startAndEndLocationsSet()
+	{
+		if(startLocation != null && endLocation != null)
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
 		}
 	}
 	
 	//GETTERS
+	
+	//needed for writing to text file.
 	public static Node getNodeFromArray(int r, int c)
 	{
 		return grid[r][c];

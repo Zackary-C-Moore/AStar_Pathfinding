@@ -25,6 +25,7 @@ public class JButtonActionListener implements ActionListener
 		else if(buttonName.equals(GUI.getJButtonNameNextStep()))
 		{
 			//One step forward in the solution
+			AStar.findPathStep();
 		}
 		else if(buttonName.equals(GUI.getJButtonNameRandomMaze()))
 		{
