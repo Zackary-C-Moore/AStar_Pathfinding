@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import jdk.dynalink.beans.StaticClass;
 
@@ -283,7 +284,7 @@ public class AStar
 		}
 		
 	}
-	public static void findPath()
+	public static void findPath() throws InterruptedException
 	{
 		int indexToExplore;
 		Node nodeToExplore = null;
@@ -340,6 +341,7 @@ public class AStar
 					colorClosedSet();
 					showPath(nodeToExplore);
 				}
+				//TimeUnit.SECONDS.sleep(2);
 			}
 			//there is no solution 
 			if(!pathFound)
@@ -407,38 +409,38 @@ public class AStar
 		}
 		
 		//check diagonals
-		if(up && left)
-		{
-			possibleAdjNode = grid[r - 1][c - 1];
-			if(!possibleAdjNode.isWall())
-			{
-				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-			}
-		}
-		if(up && right)
-		{
-			possibleAdjNode = grid[r - 1][c + 1];
-			if(!possibleAdjNode.isWall())
-			{
-				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-			}
-		}
-		if(down && left)
-		{
-			possibleAdjNode = grid[r + 1][c - 1];
-			if(!possibleAdjNode.isWall())
-			{
-				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-			}
-		}
-		if(down && right)
-		{
-			possibleAdjNode = grid[r + 1][c + 1];
-			if(!possibleAdjNode.isWall())
-			{
-				adjacentNodeEvaluation(currentNode, possibleAdjNode);
-			}
-		}	
+//		if(up && left)
+//		{
+//			possibleAdjNode = grid[r - 1][c - 1];
+//			if(!possibleAdjNode.isWall())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}
+//		if(up && right)
+//		{
+//			possibleAdjNode = grid[r - 1][c + 1];
+//			if(!possibleAdjNode.isWall())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}
+//		if(down && left)
+//		{
+//			possibleAdjNode = grid[r + 1][c - 1];
+//			if(!possibleAdjNode.isWall())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}
+//		if(down && right)
+//		{
+//			possibleAdjNode = grid[r + 1][c + 1];
+//			if(!possibleAdjNode.isWall())
+//			{
+//				adjacentNodeEvaluation(currentNode, possibleAdjNode);
+//			}
+//		}	
 	}
 	
 	public static void adjacentNodeEvaluation(Node currentNode, Node adjNode)
@@ -513,8 +515,6 @@ public class AStar
 		return false;
 	}
 	
-
-	
 	public static int calculateHeuristic(Node adjNode)
 	{
 		//calculate the distance from one of the adjNodes to the end.
@@ -535,6 +535,7 @@ public class AStar
 		{
 			start = start.getPreviousNode();
 			start.getNodeButton().setBackGroundColor(Color.blue);
+			//start.getNodeButton().getButton().revalidate();
 		}
 	}
 	
@@ -543,6 +544,7 @@ public class AStar
 		for(int i = 0; i < closedSet.size(); i++)
 		{
 			closedSet.get(i).getNodeButton().setBackGroundColor(Color.RED);
+			closedSet.get(i).getNodeButton().revalidate();
 		}
 	}
 	

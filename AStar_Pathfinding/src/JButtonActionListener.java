@@ -20,7 +20,14 @@ public class JButtonActionListener implements ActionListener
 		else if(buttonName.equals(GUI.getJButtonNameFindPath()))
 		{
 			//ai to solve for path
-			AStar.findPath();
+			try 
+			{
+				AStar.findPath();
+			} catch (InterruptedException e1) 
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		else if(buttonName.equals(GUI.getJButtonNameNextStep()))
 		{
